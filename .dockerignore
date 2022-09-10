@@ -1,0 +1,5 @@
+Dockerfile
+__pycache__
+users.db
+.gitignore
+.dockerignore

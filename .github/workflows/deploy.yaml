@@ -1,0 +1,31 @@
+name: CD
+on: [push, workflow_dispatch]
+jobs:
+  deploy:
+    name: Deploy to aws
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && 'refs/head/main'
+    steps:
+      - name: Configure SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/aws
+          chmod 600 ~/.ssh/aws
+          cat >>~/.ssh/config <<END
+          Host kamuridesu.tech
+            HostName kamuridesu.tech
+            User admin
+            IdentityFile ~/.ssh/aws
+            StrictHostKeyChecking no
+          END
+        env:
+            SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        
+      - name: Clone or update repository
+        run: ssh admin@kamuridesu.tech "cd ${{ github.event.repository.name }} && git pull || git clone https://github.com/${{ github.repository }}.git"
+      - name: Build image
+        run: ssh admin@kamuridesu.tech "cd ${{ github.event.repository.name }} && sudo docker build -t ${{ github.repository }} ."
+      - name: Stop and restart docker container
+        run: |
+          ssh admin@kamuridesu.tech "sudo docker rm -f ${{ github.event.repository.name }}"
+          ssh admin@kamuridesu.tech "sudo docker run --name ${{ github.event.repository.name }} --restart always --memory=100m -d -p 5003:80 ${{ github.repository }}"
