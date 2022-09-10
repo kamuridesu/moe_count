@@ -1,5 +1,5 @@
 import os
-from config import MAX_DIGITS
+from .config import MAX_DIGITS
 
 
 def imageBuilder(number: int) -> list[str]:
