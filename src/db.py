@@ -2,9 +2,9 @@ import sqlite3
 
 
 class DB:
-    def __init__(self):
+    def __init__(self, dbname):
         self.locked = False
-        self.conn = sqlite3.connect("users.db")
+        self.conn = sqlite3.connect(dbname)
         
         self.conn.execute("""CREATE TABLE IF NOT EXISTS "users" (
             "username"	TEXT NOT NULL UNIQUE,

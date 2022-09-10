@@ -9,7 +9,7 @@ app = Flask(__name__)
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = DB()
+        db = g._database = DB("./db/users.db")
     return db
 
 
