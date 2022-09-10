@@ -28,4 +28,4 @@ jobs:
       - name: Stop and restart docker container
         run: |
           ssh admin@kamuridesu.tech "sudo docker rm -f ${{ github.event.repository.name }}"
-          ssh admin@kamuridesu.tech "sudo docker run --name ${{ github.event.repository.name }} --restart always --memory=100m -d -p 5003:80 ${{ github.repository }}"
+          ssh admin@kamuridesu.tech "sudo docker run --name ${{ github.event.repository.name }} -v ./databases:/app --restart always --memory=100m -d -p 5003:80 ${{ github.repository }}"
