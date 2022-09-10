@@ -1,7 +1,7 @@
 from src.db import DB
 from src.util import imageBuilder
 from src.merge_svg import mergeAllImages
-from flask import Flask, request, g, jsonify
+from flask import Flask, request, g, jsonify, Response
 
 app = Flask(__name__)
 
@@ -29,7 +29,7 @@ def index():
     else:
         db.addUser(username)
     result = mergeAllImages(imageBuilder(counter))
-    return result.getvalue()
+    return Response(result.getvalue(), mimetype='image/svg')
 
 
 @app.route("/health")
