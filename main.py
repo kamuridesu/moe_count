@@ -29,7 +29,11 @@ def index():
     else:
         db.addUser(username)
     result = mergeAllImages(imageBuilder(counter))
-    return Response(result.getvalue(), mimetype='image/svg+xml')
+    return Response(result.getvalue(), mimetype='image/svg+xml', headers={
+        'Cache-Control': 'no-cache',
+        'Vary': 'Accept-Encoding',
+        "cache-control": "public, max-age=0, must-revalidate"
+    })
 
 
 @app.route("/health")
