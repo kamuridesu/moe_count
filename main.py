@@ -29,7 +29,7 @@ def index():
     else:
         db.addUser(username)
     result = mergeAllImages(imageBuilder(counter))
-    return Response(result.getvalue(), mimetype='image/svg')
+    return Response(result.getvalue(), mimetype='image/svg+xml')
 
 
 @app.route("/health")
