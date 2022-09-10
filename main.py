@@ -1,7 +1,7 @@
 from src.db import DB
 from src.util import imageBuilder
 from src.merge_svg import mergeAllImages
-from flask import Flask, request, g
+from flask import Flask, request, g, jsonify
 
 app = Flask(__name__)
 
@@ -17,7 +17,7 @@ def get_db():
 def index():
     params = request.args
     if "username" not in params or params.get("username") == "":
-        return "Missing username parameter!", 403
+        return "Missing username parameter!", 400
     username = params.get("username")
     db = get_db()
     results = db.search(username)
@@ -30,6 +30,11 @@ def index():
         db.addUser(username)
     result = mergeAllImages(imageBuilder(counter))
     return result.getvalue()
+
+
+@app.route("/health")
+def health():
+    return jsonify({"status": "UP"})
 
 
 @app.teardown_appcontext
