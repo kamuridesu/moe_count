@@ -32,8 +32,8 @@ def index():
     return Response(result.getvalue(), mimetype='image/svg+xml', headers={
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Vary': 'Accept-Encoding',
-        "Pragma": "no-cache"
-        "Expires": "0"
+        "Pragma": "no-cache",
+        "Expires": "0",
     })
 
 
