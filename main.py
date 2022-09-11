@@ -30,9 +30,10 @@ def index():
         db.addUser(username)
     result = mergeAllImages(imageBuilder(counter))
     return Response(result.getvalue(), mimetype='image/svg+xml', headers={
-        'Cache-Control': 'no-cache',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Vary': 'Accept-Encoding',
-        "cache-control": "public, max-age=0, must-revalidate"
+        "Pragma": "no-cache"
+        "Expires": "0"
     })
 
 
