@@ -23,5 +23,5 @@ docker build -t moe_count .
 
 Run the container:
 ```
-docker run --name moe_count -v ${pwd}/databases:/app/db --restart always -d -p 5003:80 moe_count
+docker run --name moe_count -v $(pwd)/databases:/app/db --restart always -d -p 5003:80 moe_count
 ```
