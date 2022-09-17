@@ -9,7 +9,7 @@ parent_log_request = serving.WSGIRequestHandler.log_request
 
 
 def log_request(self, *args, **kwargs):
-    if self.path == '/healthcheck':
+    if self.path == '/health':
         return
 
     parent_log_request(self, *args, **kwargs)
