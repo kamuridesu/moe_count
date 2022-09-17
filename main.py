@@ -2,8 +2,21 @@ from src.db import DB
 from src.util import imageBuilder
 from src.merge_svg import mergeAllImages
 from flask import Flask, request, g, jsonify, Response
+from werkzeug import serving
 
 app = Flask(__name__)
+parent_log_request = serving.WSGIRequestHandler.log_request
+
+
+def log_request(self, *args, **kwargs):
+    if self.path == '/healthcheck':
+        return
+
+    parent_log_request(self, *args, **kwargs)
+
+
+def filter_healthcheck_logs():
+    serving.WSGIRequestHandler.log_request = log_request
 
 
 def get_db():
