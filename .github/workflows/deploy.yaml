@@ -12,20 +12,22 @@ jobs:
           echo "$SSH_KEY" > ~/.ssh/aws
           chmod 600 ~/.ssh/aws
           cat >>~/.ssh/config <<END
-          Host kamuridesu.tech
-            HostName kamuridesu.tech
-            User admin
+          Host $IP_ADDR
+            HostName $IP_ADDR
+            User $USERNAME
             IdentityFile ~/.ssh/aws
             StrictHostKeyChecking no
           END
         env:
             SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
+            IP_ADDR: ${{ secrets.IP_ADDR }}
+            USERNAME: ${{ secrets.SERVER_USER }}
         
       - name: Clone or update repository
-        run: ssh admin@kamuridesu.tech "cd ${{ github.event.repository.name }} && git pull || git clone https://github.com/${{ github.repository }}.git"
+        run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.IP_ADDR }} "cd ${{ github.event.repository.name }} && git pull || git clone https://github.com/${{ github.repository }}.git"
       - name: Build image
-        run: ssh admin@kamuridesu.tech "cd ${{ github.event.repository.name }} && sudo docker build -t ${{ github.repository }} ."
+        run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.IP_ADDR }} "cd ${{ github.event.repository.name }} && sudo docker build -t ${{ github.repository }} ."
       - name: Stop and restart docker container
         run: |
-          ssh admin@kamuridesu.tech "sudo docker rm -f ${{ github.event.repository.name }}"
-          ssh admin@kamuridesu.tech "sudo docker run --name ${{ github.event.repository.name }} -v ${pwd}/databases:/app/db --restart always --memory=100m -d -p 5003:80 ${{ github.repository }}"
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.IP_ADDR }} "sudo docker rm -f ${{ github.event.repository.name }}"
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.IP_ADDR }} "sudo docker run --name ${{ github.event.repository.name }} -v /home/${{ secrets.SERVER_USER }}/databases:/app/db --restart always --memory=100m -d -p 5003:80 ${{ github.repository }}"
