@@ -1,7 +1,7 @@
 # moe_count
 Add a banner with cute girls to count visits!
 
-![counter](https://count.kamuridesu.tech?username=moe_count)
+![counter](https://count.kamuridesu.com/?username=moe_count)
 # usage
 Add this to your profile:
 ## Markdown
