@@ -1,7 +1,7 @@
 from src.db import DB
 from src.util import imageBuilder
 from src.merge_svg import mergeAllImages
-from flask import Flask, request, g, jsonify, Response
+from flask import Flask, request, g, jsonify, Response, render_template
 from werkzeug import serving
 
 app = Flask(__name__)
@@ -30,7 +30,7 @@ def get_db():
 def index():
     params = request.args
     if "username" not in params or params.get("username") == "":
-        return "Missing username parameter!", 400
+        return render_template('errors/404.html', message="Missing username!"), 404
     username = params.get("username")
     db = get_db()
     results = db.search(username)
@@ -62,5 +62,10 @@ def close_connection(exception):
         db.close()
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('errors/404.html'), 404
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80, debug=False)
+    app.run(host="0.0.0.0", port=80, debug=True)
