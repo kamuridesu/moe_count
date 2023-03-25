@@ -10,7 +10,7 @@ Add this to your profile:
 ```
 ## HTML
 ```md
-<img src=http://count.kamuridesu.tech?username=moe_count](http://count.kamuridesu.tech?username=moe_count/>
+<img src=http://count.kamuridesu.tech?username=moe_count />
 ```
 But instead of `moe_count` put your username or some unique identifier
 
