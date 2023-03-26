@@ -3,17 +3,11 @@ from .config import MAX_DIGITS
 
 
 def imageBuilder(number: int) -> list[str]:
-    numbers_str = str(number)
-    file_path = "./media"
-    if len(numbers_str) > MAX_DIGITS:
-        numbers_str = "9" * MAX_DIGITS
-    while len(numbers_str) < MAX_DIGITS:
-        numbers_str = "0" + numbers_str
+    numbers_str = str(number).zfill(MAX_DIGITS)
+    file_path = "./static/images"
     numbers_path = []
-    for number in numbers_str:
-        for file in os.listdir(file_path):
-            if file.startswith(number):
-                numbers_path.append(os.path.join(file_path, file))
+    for n in numbers_str:
+        numbers_path.append(os.path.join(file_path, n + ".svg"))
     return numbers_path
 
 

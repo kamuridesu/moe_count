@@ -727,19 +727,10 @@ class VBoxLayout(BoxLayout):
 # ------------------------------------------------------------------
 
 def mergeAllImages(files: list[str]) -> StringIO:
-    direction = 'horizontal'
     margin_px = 0
 
-    if 1:
-        fd = open('tmp.svg',mode='w')
-    else:
-        fd = sys.stdout
-
     doc = Document()
-    if direction == 'vertical':
-        layout = VBoxLayout()
-    elif direction == 'horizontal':
-        layout = HBoxLayout()
+    layout = HBoxLayout()
 
     for fname in files:
         layout.addSVG(fname, alignment=AlignCenter)
